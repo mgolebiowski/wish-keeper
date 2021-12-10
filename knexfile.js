@@ -1,5 +1,6 @@
 "use strict";
-// Update with your config settings.
+
+require("dotenv").config();
 
 const CONNECTION_URL = `${process.env.DB_URL}/${process.env.DB_NAME}`;
 
