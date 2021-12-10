@@ -4,16 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:db": "docker-compose up",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/hapi": "^20.2.1"
+    "@hapi/hapi": "^20.2.1",
+    "dotenv": "^10.0.0",
+    "knex": "^0.95.14",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
-    "eslint": "^8.4.1",
-    "@hapi/eslint-plugin": "^5.1.0"
+    "@hapi/eslint-plugin": "^5.1.0",
+    "eslint": "^8.4.1"
   }
 }
