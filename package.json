@@ -1,0 +1,19 @@
+{
+  "name": "wish-keeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.4.1",
+    "@hapi/eslint-plugin": "^5.1.0"
+  }
+}
