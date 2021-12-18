@@ -7,6 +7,8 @@ const Knex = require("knex");
 const KnexConfig = require("../knexfile");
 const UsersRepository = require("./repositories/users");
 
+const initUsersRoutes = require("./routes/users");
+
 const init = async () => {
 
   const server = Hapi.server({
@@ -17,18 +19,10 @@ const init = async () => {
   const connection = Knex(KnexConfig);
   const usersRepository = UsersRepository(connection);
 
-  server.route({
-    method: "GET",
-    path: "/users/{id}",
-    handler: async (req, h) => {
-
-      const result = await usersRepository.getUser(req.params.id);
-      return JSON.stringify(result);
-    }
-  });
+  initUsersRoutes(server, usersRepository);
 
   await server.start();
-  console.log("Server running on %s", server.info.uri);
+  console.log("Server running on", server.info.uri);
 };
 
 process.on("unhandledRejection", (err) => {
