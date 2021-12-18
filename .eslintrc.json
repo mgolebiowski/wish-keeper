@@ -16,6 +16,6 @@
     }],
     "semi": ["error", "always"],
     "array-bracket-spacing": ["error", "always"],
-    "@hapi/capitalize-modules": ["error", "never"]
+    "@hapi/capitalize-modules": 0
   }
 }
