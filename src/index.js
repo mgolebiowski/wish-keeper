@@ -2,6 +2,7 @@
 
 require("dotenv").config();
 const Hapi = require("@hapi/hapi");
+const Jwt = require("@hapi/jwt");
 const Knex = require("knex");
 
 const KnexConfig = require("../knexfile");
@@ -15,6 +16,23 @@ const init = async () => {
     port: process.env.PORT || 3000,
     host: "0.0.0.0"
   });
+
+  await server.register(Jwt);
+
+  server.auth.strategy("auth0-jwt-strategy", "jwt", {
+    keys: {
+      uri: `https://${process.env.AUTH_DOMAIN}/.well-known/jwks.json`,
+      algorithms: [ "RS256" ]
+    },
+    verify: {
+      aud: "wish-keeper-api",
+      iss: process.env.AUTH_ISSUER,
+      sub: false
+    },
+    validate: false
+  });
+
+  server.auth.default("auth0-jwt-strategy");
 
   const connection = Knex(KnexConfig);
   const usersRepository = UsersRepository(connection);
