@@ -6,9 +6,13 @@ const Jwt = require("@hapi/jwt");
 const Knex = require("knex");
 
 const KnexConfig = require("../knexfile");
+
 const UsersRepository = require("./repositories/users");
+const PeopleRepository = require("./repositories/people");
+const PresentsRepository = require("./repositories/presents");
 
 const initUsersRoutes = require("./routes/users");
+const initFriendsRoutes = require("./routes/users/friends");
 
 const init = async () => {
 
@@ -36,8 +40,11 @@ const init = async () => {
 
   const connection = Knex(KnexConfig);
   const usersRepository = UsersRepository(connection);
+  const peopleRepository = PeopleRepository(connection);
+  const friendsRepository = PresentsRepository(connection);
 
   initUsersRoutes(server, usersRepository);
+  initFriendsRoutes(server, peopleRepository, friendsRepository);
 
   await server.start();
   console.log("Server running on", server.info.uri);

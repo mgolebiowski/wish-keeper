@@ -16,6 +16,7 @@
     }],
     "semi": ["error", "always"],
     "array-bracket-spacing": ["error", "always"],
-    "@hapi/capitalize-modules": 0
+    "@hapi/capitalize-modules": 0,
+    "@hapi/scope-start": 0
   }
 }
