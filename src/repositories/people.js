@@ -1,15 +1,21 @@
 "use strict";
 
 const formatFriend = (output, record) => {
-  output.name = record.name;
-  output.id = record.id;
-  if (!output.presents) {
-    output.presents = [];
+  if (!output.length || output[output.length - 1].id !== record.friendId) {
+    output.push({
+      id: record.friendId,
+      name: record.name,
+      presents: []
+    });
+  }
+
+  if ( record.id === null ) {
+    return output;
   }
 
   // eslint-disable-next-line no-unused-vars
-  const { user_id, person_id, name, ...thePresent } = record;
-  output.presents.push(thePresent);
+  const { user_id, person_id, name, friendId, ...thePresent } = record;
+  output[output.length - 1].presents.push(thePresent);
   return output;
 };
 
@@ -17,9 +23,10 @@ module.exports = function PeopleRepository(conn) {
 
   return ({
     getAllUsersFriends: (userId) => conn("People")
-      .innerJoin("Presents", "Presents.person_id", "People.id")
+      .leftJoin("Presents", "Presents.person_id", "People.id")
+      .select("People.id as friendId", "*")
       .where("user_id", userId)
-      .then((records) => records.reduce(formatFriend, {})),
+      .then((records) => records.sort((rec1, rec2) => rec1.friendId - rec2.friendId).reduce(formatFriend, [])),
     addFriendToTheUser: (userId, name) => conn("People").returning("id").insert({ user_id: userId, name }),
     removeFriendFromTheUser: (friendId) => conn("People").where("id", friendId).del()
   });
